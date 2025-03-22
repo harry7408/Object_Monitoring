@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ObjectMonitoring"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":presentation")

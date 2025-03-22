@@ -1,4 +1,4 @@
-package com.harry.objectmonitoring.ui.theme
+package com.harry.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
