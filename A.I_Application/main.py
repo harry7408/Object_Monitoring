@@ -44,7 +44,7 @@ async def detect_image(file: bytes = File(...)):
         input_image = get_image(file)
 
     except Exception as e:
-        raise HTTPException(status_code = 400, detail=str(e))
+        raise HTTPException(status_code = 404, detail=str(e))
         
     predict = process_image(input_image)
     result = {
