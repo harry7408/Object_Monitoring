@@ -12,6 +12,10 @@ appcompat = "1.7.0"
 material = "1.12.0"
 hilt-version = "2.51.1"
 ksp-version = "2.0.21-1.0.27"
+timber="5.0.1"
+ktor-version="2.3.5"
+ktor-serialization-version="1.6.0"
+kotlin-serialization="1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +36,12 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 hilt-android = {group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version"}
 hilt-compiler = {group = "com.google.dagger", name = "hilt-android-compiler",version.ref = "hilt-version"}
+timber = {group="com.jakewharton.timber", name = "timber",version.ref="timber"}
+ktor-core = {group = "io.ktor", name="ktor-client-core",version.ref="ktor-version"}
+ktor-cio = {group = "io.ktor", name="ktor-client-cio",version.ref="ktor-version"}
+ktor-negotiation = {group="io.ktor", name ="ktor-client-content-negotiation", version.ref="ktor-version"}
+ktor-json = {group="io.ktor", name ="ktor-serialization-kotlinx-json", version.ref="ktor-version"}
+ktor-serialization = {group="org.jetbrains.kotlinx", name ="kotlinx-serialization-json", version.ref="ktor-serialization-version"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -40,4 +50,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version"}
 ksp = {id = "com.google.devtools.ksp", version.ref="ksp-version"}
+serialization = { id="org.jetbrains.kotlin.plugin.serialization", version.ref="kotlin-serialization"}
 
