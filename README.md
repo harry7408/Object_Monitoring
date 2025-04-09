@@ -62,3 +62,68 @@ http://localhost:8081/object_monitor
       ]
     }
     ```
+## SpringBootApplication
+### About API
+
+> Swagger
+> 
+
+```
+http://localhost:8080/api-swagger
+```
+
+- yaml 파일에서 설정
+
+> API
+> 
+
+```
+POST 요청
+http://localhost:8080/api/object/monitor
+```
+
+- Request
+    - Multipart Image
+- Response
+    - result Code, 메세지, A.I Fast API 측에서 받아온 데이터
+    
+    ```java
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public class Api<T> {
+    	private String resultCode;
+    	private String message;
+    	private T data;
+    }
+    ```
+    
+    - Json String Example
+    
+    ```
+    {
+    	"resultCode" : "200 OK",
+    	"message": "결과",
+    	"data": {
+    		"result": [
+        {
+          "item": "dog", 
+          "confidence": 0.9259905815, 
+          "left": 100.615234375, 
+          "top": 0.9213780761, 
+          "right": 203.5078887939, 
+          "bottom": 162.1179656982 
+        },
+        {
+          "item": "dog",
+          "confidence": 0.8665550947,
+          "left": 5.903427124,
+          "top": 19.0094356537,
+          "right": 87.5690841675,
+          "bottom": 125.6044082642
+        }
+       ]
+    	}
+    }
+    ```
