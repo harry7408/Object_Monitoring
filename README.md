@@ -63,6 +63,7 @@ http://localhost:8081/object_monitor
     }
     ```
 ## SpringBootApplication
+- Android Client 측과 이미지 분석 Server 의 중간 노드
 ### About API
 
 > Swagger
