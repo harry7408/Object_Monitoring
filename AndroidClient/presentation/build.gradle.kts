@@ -72,4 +72,13 @@ dependencies {
 
     // Timber
     implementation(libs.timber)
+
+    // Camera API
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+
+    // Ted Permission
+    implementation(libs.tedpermission.normal)
 }
