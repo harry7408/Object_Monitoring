@@ -1,7 +1,7 @@
 package com.harry.objectmonitoring
 
 import com.harry.data.repository.ObjectRepositoryImpl
-import com.harry.domain.repository.ObjectRepository
+import com.harry.domain.repository.ObjectDetectionResultRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindObjectRepository(objectRepositoryImpl: ObjectRepositoryImpl): ObjectRepository
+    abstract fun bindObjectRepository(objectRepositoryImpl: ObjectRepositoryImpl): ObjectDetectionResultRepository
 }
