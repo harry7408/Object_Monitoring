@@ -1,22 +1,22 @@
-package com.harry.presentation.preview
+package com.harry.presentation.main
 
 import androidx.camera.core.ImageProxy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.harry.domain.usecase.UploadUseCase
+import com.harry.domain.usecase.ObjectDetectUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
-    private val uploadUseCase: UploadUseCase
+    private val objectDetectUseCase: ObjectDetectUseCase
 ) : ViewModel() {
 
     fun onImageCaptured(image: ImageProxy) {
         viewModelScope.launch {
-            val byteArray = convertImageProxyToByteArray(image)
-            uploadUseCase(byteArray)
+
+
         }
     }
 

@@ -1,4 +1,4 @@
-package com.harry.presentation.preview
+package com.harry.presentation.main
 
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
