@@ -1,9 +1,9 @@
 package com.harry.presentation.preview
 
-import android.Manifest
-import android.content.Context
-import android.widget.Toast
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -22,18 +22,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
+import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.harry.presentation.util.requestCameraPermission
 
 @Composable
-fun CameraScreen() {
+fun CameraScreen(
+    viewModel: CameraViewModel = hiltViewModel()
+) {
 
     val context = LocalContext.current
-    var hasPermission by remember { mutableStateOf(false)}
+    var hasPermission by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         requestCameraPermission(context) {
-            hasPermission=true
+            hasPermission = true
         }
     }
 
@@ -44,7 +47,9 @@ fun CameraScreen() {
     ) {
         CameraPreview(
             modifier = Modifier.fillMaxSize()
-        )
+        ) { image ->
+            viewModel.onImageCaptured(image)
+        }
 
         Text(
             text = "카메라 Preview",
@@ -57,7 +62,8 @@ fun CameraScreen() {
 // 카메라 화면 불러오기 (Android View 활용)
 @Composable
 fun CameraPreview(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onImageCaptured: (ImageProxy) -> Unit
 ) {
     val context = LocalContext.current
     val lifeCycleOwner = LocalLifecycleOwner.current
@@ -74,10 +80,20 @@ fun CameraPreview(
             surfaceProvider = previewView.surfaceProvider
         }
 
+        val imageAnalysis = ImageAnalysis.Builder()
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+            .apply {
+                setAnalyzer(
+                    ContextCompat.getMainExecutor(context),
+                    FrameAnalyzer(onImageCaptured)
+                )
+            }
+
         val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
         cameraProvider.unbindAll()
-        cameraProvider.bindToLifecycle(lifeCycleOwner, cameraSelector, preview)
+        cameraProvider.bindToLifecycle(lifeCycleOwner, cameraSelector, preview, imageAnalysis)
     }
 
     AndroidView(
@@ -88,18 +104,5 @@ fun CameraPreview(
     )
 }
 
-fun requestCameraPermission(context: Context, onGranted: ()-> Unit) {
-    TedPermission.create()
-        .setPermissionListener(object: PermissionListener {
-            override fun onPermissionGranted() {
-                onGranted()
-            }
 
-            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-                Toast.makeText(context, "카메라 권한이 필요합니다",Toast.LENGTH_SHORT).show()
-            }
-        })
-        .setPermissions(Manifest.permission.CAMERA)
-        .check()
-}
 
