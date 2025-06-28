@@ -1,8 +1,7 @@
 package com.harry.presentation.main
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -19,7 +18,7 @@ fun MainScreen(
 
     val value = viewModel.container.stateFlow.value
 
-    Row(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         // Camera Preview
         CameraScreen(
             modifier = Modifier.weight(0.7f),

@@ -1,5 +1,6 @@
 package com.harry.presentation.component
 
+import android.content.Context
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888
@@ -21,7 +22,7 @@ import com.harry.presentation.main.FrameAnalyzer
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    onImageCaptured: (ImageProxy) -> Unit
+    onImageCaptured: (ByteArray) -> Unit
 ) {
     val context = LocalContext.current
     val lifeCycleOwner = LocalLifecycleOwner.current
@@ -47,7 +48,9 @@ fun CameraPreview(
             .apply {
                 setAnalyzer(
                     ContextCompat.getMainExecutor(context),
-                    FrameAnalyzer(onImageCaptured)
+                    FrameAnalyzer(
+                        context= context,
+                        onImageCaptured = onImageCaptured)
                 )
             }
         // 후면 카메라 적용
