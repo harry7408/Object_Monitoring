@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.1"
+agp = "8.4.1"
 cameraCore = "1.4.2"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.0"
@@ -7,6 +7,7 @@ coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinxCoroutinesCore = "1.7.3"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2024.04.01"
@@ -16,10 +17,10 @@ hilt-version = "2.51.1"
 ksp-version = "2.0.21-1.0.27"
 navigationCompose = "2.8.9"
 tedpermissionNormal = "3.3.0"
-timber="5.0.1"
-ktor-version="2.3.5"
-ktor-serialization-version="1.6.0"
-kotlin-serialization="1.9.0"
+timber = "5.0.1"
+ktor-version = "2.3.5"
+ktor-serialization-version = "1.6.0"
+kotlin-serialization = "1.9.0"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCore" }
@@ -43,23 +44,26 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-hilt-android = {group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version"}
-hilt-compiler = {group = "com.google.dagger", name = "hilt-android-compiler",version.ref = "hilt-version"}
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-version" }
 tedpermission-normal = { module = "io.github.ParkSangGwon:tedpermission-normal", version.ref = "tedpermissionNormal" }
-timber = {group="com.jakewharton.timber", name = "timber",version.ref="timber"}
-ktor-core = {group = "io.ktor", name="ktor-client-core",version.ref="ktor-version"}
-ktor-cio = {group = "io.ktor", name="ktor-client-cio",version.ref="ktor-version"}
-ktor-negotiation = {group="io.ktor", name ="ktor-client-content-negotiation", version.ref="ktor-version"}
-ktor-json = {group="io.ktor", name ="ktor-serialization-kotlinx-json", version.ref="ktor-version"}
-ktor-serialization = {group="org.jetbrains.kotlinx", name ="kotlinx-serialization-json", version.ref="ktor-serialization-version"}
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor-version" }
+ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor-version" }
+ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor-version" }
+ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
+ktor-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktor-serialization-version" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version"}
-ksp = {id = "com.google.devtools.ksp", version.ref="ksp-version"}
-serialization = { id="org.jetbrains.kotlin.plugin.serialization", version.ref="kotlin-serialization"}
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
 
