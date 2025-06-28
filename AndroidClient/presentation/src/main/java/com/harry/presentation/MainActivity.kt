@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.harry.presentation.main.CameraScreen
+import com.harry.presentation.main.MainScreen
 import com.harry.presentation.ui.theme.ObjectMonitoringTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ObjectMonitoringTheme {
-                CameraScreen()
+                MainScreen()
             }
         }
     }

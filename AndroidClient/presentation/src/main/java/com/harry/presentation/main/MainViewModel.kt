@@ -12,7 +12,7 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class CameraViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val objectDetectUseCase: ObjectDetectUseCase
 ) : ViewModel(), ContainerHost<MyScreenState, MyScreenSideEffect> {
 
@@ -28,8 +28,6 @@ class CameraViewModel @Inject constructor(
             }
         }
     )
-
-
 
     fun onImageCaptured(imageProxy: ImageProxy) {
 

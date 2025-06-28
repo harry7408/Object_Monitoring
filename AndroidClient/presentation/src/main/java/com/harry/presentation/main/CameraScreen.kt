@@ -19,7 +19,8 @@ import com.harry.presentation.util.requestCameraPermission
 
 @Composable
 fun CameraScreen(
-    viewModel: CameraViewModel = hiltViewModel()
+    modifier: Modifier,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
