@@ -21,6 +21,7 @@ timber = "5.0.1"
 ktor-version = "2.3.5"
 ktor-serialization-version = "1.6.0"
 kotlin-serialization = "1.9.0"
+orbit = "10.0.0"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCore" }
@@ -55,6 +56,9 @@ ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor-ve
 ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor-version" }
 ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
 ktor-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktor-serialization-version" }
+orbit-core = { group = "org.orbit-mvi", name = "orbit-core", version.ref = "orbit" }
+orbit-viewmodel = { group = "org.orbit-mvi", name = "orbit-viewmodel", version.ref = "orbit" }
+orbit-compose = { group = "org.orbit-mvi", name = "orbit-compose", version.ref = "orbit" }
 
 
 [plugins]
