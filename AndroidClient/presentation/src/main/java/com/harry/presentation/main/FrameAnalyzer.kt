@@ -14,7 +14,7 @@ class FrameAnalyzer(
     private val onImageCaptured: (ByteArray) -> Unit
 ) : ImageAnalysis.Analyzer {
 
-    private var lastAnalyzeTime = 0L
+    //private var lastAnalyzeTime = 0L
     private val yuvToRgbConverter = YuvToRgbConverter(context)
 
     private var lastAnalyzerTime = 0L
@@ -30,7 +30,6 @@ class FrameAnalyzer(
 
             val byteArray = bitmapToByteArray(bitmap)
             onImageCaptured(byteArray)
-
         }
         image.close()
     }

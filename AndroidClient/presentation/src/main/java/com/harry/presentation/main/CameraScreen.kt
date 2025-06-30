@@ -49,6 +49,8 @@ fun CameraScreen(
                 color = Color.Yellow
             )
         }
+
+        // TODO : API 결과 중 Result의 결과를 받아 Bounding Box, 식별된 물체, Confidence 값 표시
     }
 }
 
