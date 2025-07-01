@@ -17,9 +17,9 @@ class KtorApi : Api {
         }
     }
 
-    // 데이터를 가져오는 부분
+    // 데이터를 가져오는 부분 -> Post Mapping(Multipart Body 이미지 형식 필요)
     override suspend fun getResults(): ApiResultDto {
-        val response: HttpResponse = client.get("http://localhost:8081/api/object/monitor")
+        val response: HttpResponse = client.get("http://localhost:8080/api/object/monitor")
         return response.body()
     }
 }
