@@ -11,7 +11,7 @@ class ObjectDetectUseCaseImpl @Inject constructor(
     private val repository: ObjectDetectionResultRepository
 ) : ObjectDetectUseCase {
     override suspend fun invoke(imageFrame: ImageFrame): Flow<ApiResult> {
-        TODO("Not yet implemented")
+        // Repository 에서 나오는 값 by-passing
+        return repository(imageFrame)
     }
-
 }

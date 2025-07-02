@@ -1,6 +1,7 @@
 package com.harry.domain.repository
 
 import com.harry.domain.model.ApiResult
+import com.harry.domain.model.ImageFrame
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -8,5 +9,5 @@ import kotlinx.coroutines.flow.Flow
  * @author harry
  */
 interface ObjectDetectionResultRepository {
-    suspend operator fun invoke(): Flow<ApiResult>
+    suspend operator fun invoke(imageFrame: ImageFrame): Flow<ApiResult>
 }

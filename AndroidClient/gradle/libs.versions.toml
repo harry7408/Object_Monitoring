@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.1"
+agp = "8.6.0"
 cameraCore = "1.4.2"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.0"
@@ -13,8 +13,8 @@ activityCompose = "1.10.1"
 composeBom = "2024.04.01"
 appcompat = "1.7.0"
 material = "1.12.0"
-hilt-version = "2.51.1"
-ksp-version = "2.0.21-1.0.27"
+hilt-version = "2.56.1"
+ksp-version = "2.0.0-1.0.22"
 navigationCompose = "2.8.9"
 tedpermissionNormal = "3.3.0"
 timber = "5.0.1"
@@ -53,6 +53,7 @@ tedpermission-normal = { module = "io.github.ParkSangGwon:tedpermission-normal",
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor-version" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor-version" }
+ktor-okhttp = {group ="io.ktor", name = "ktor-client-okhttp", version.ref = "ktor-version"}
 ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor-version" }
 ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
 ktor-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktor-serialization-version" }
