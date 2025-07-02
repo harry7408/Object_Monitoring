@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
  * @author harry
  */
 interface ObjectDetectUseCase {
-    // TODO : 이미지 넘길 형식이 필요
     suspend operator fun invoke(imageFrame: ImageFrame): Flow<ApiResult>
 
 }
