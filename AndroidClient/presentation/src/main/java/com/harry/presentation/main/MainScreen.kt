@@ -26,15 +26,15 @@ fun MainScreen(
         )
 
         // 하단에 인식된 물체 나타내는 부분
-        if (value.apiResult?.data?.isEmpty() == true) {
+        if (value.apiResult?.data?.result?.isEmpty() == true) {
             Text(
                 text = "인식된 물체가 없습니다",
                 color = Color.Yellow
             )
         } else {
             LazyColumn {
-                items(value.apiResult?.data?.size ?: 0, key = null) { idx ->
-                    value.apiResult?.data[idx].run {
+                items(value.apiResult?.data?.result?.size ?: 0, key = null) { idx ->
+                    value.apiResult?.data?.result[idx].run {
                         Text(text = "${this?.item} : ${this?.confidence}")
                     }
                 }

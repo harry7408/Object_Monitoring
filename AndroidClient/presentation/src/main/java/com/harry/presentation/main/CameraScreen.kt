@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.harry.presentation.component.CameraPreview
 import com.harry.presentation.util.requestCameraPermission
+import timber.log.Timber
 
 @Composable
 fun CameraScreen(
@@ -40,8 +41,10 @@ fun CameraScreen(
         if (hasPermission) {
             CameraPreview(
                 modifier = Modifier.fillMaxSize()
-            ) { image ->
-                viewModel::onImageCaptured
+            ) { imageFrame ->
+                // 수정 필요
+                Timber.tag("CameraScreen").v("onImageCaptured")
+                viewModel.onImageCaptured(imageFrame)
             }
         } else {
             Text(

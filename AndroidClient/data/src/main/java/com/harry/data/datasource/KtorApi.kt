@@ -27,7 +27,7 @@ class KtorApi @Inject constructor() : Api {
     // 데이터를 가져오는 부분 -> Post Mapping(Multipart Body 이미지 형식 필요)
     override suspend fun getResults(imageFrame: ImageFrame): ApiResultDto {
         val response: HttpResponse = client.submitFormWithBinaryData(
-            url = "http://localhost:8080/api/object/monitor",
+            url = "http://192.168.45.212:8080/api/object/monitor",
             formData = formData {
                 append(
                     "image",
