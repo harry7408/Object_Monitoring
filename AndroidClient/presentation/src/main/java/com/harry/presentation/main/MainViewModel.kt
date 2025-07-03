@@ -1,14 +1,12 @@
 package com.harry.presentation.main
 
-import android.content.Context
 import android.graphics.Bitmap
-import androidx.camera.core.ImageProxy
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.harry.domain.model.ApiResult
+import com.harry.domain.model.ImageFrame
 import com.harry.domain.usecase.ObjectDetectUseCase
-import com.harry.presentation.util.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -49,16 +47,24 @@ class MainViewModel @Inject constructor(
         return reusableBitmap!!
     }
 
-    fun onImageCaptured(imageProxy: ImageProxy, context: Context) = intent {
+    fun onImageCaptured(imageFrame: ImageFrame) = intent {
+        Timber.tag("MainViewModel").v("onImageCaptured Called")
         // I.O Scope에서 동작하도록 CoroutineBuilder 생성
         viewModelScope.launch(Dispatchers.IO) {
-            val bitmap = getReusableBitmap(imageProxy.width, imageProxy.height)
-            val imageFrame = imageProxy.toDomain(context, bitmap)
 
-            objectDetectUseCase(imageFrame!!)
+            val imageFrame = ImageFrame(
+                imageData = imageFrame.imageData,
+                width = if (imageFrame.rotationDegree == 90 || imageFrame.rotationDegree == 270)
+                    imageFrame.height else imageFrame.width,
+                height = if (imageFrame.rotationDegree == 90 || imageFrame.rotationDegree == 270)
+                    imageFrame.width else imageFrame.height,
+                rotationDegree = 0 // 이미 회전된 상태
+            )
+
+            objectDetectUseCase(imageFrame)
                 // Flow 예외 처리
                 .catch { exception ->
-                    Timber.tag("MainViewModel").v(exception.message.toString())
+                    Timber.tag("MainViewModel").e(exception.message.toString())
 
                     reduce {
                         state.copy(

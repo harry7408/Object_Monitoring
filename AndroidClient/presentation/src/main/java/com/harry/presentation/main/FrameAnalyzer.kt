@@ -7,11 +7,12 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.harry.presentation.util.YuvToRgbConverter
 import androidx.core.graphics.createBitmap
+import com.harry.domain.model.ImageFrame
 import com.harry.presentation.util.bitmapToByteArray
 
 class FrameAnalyzer(
     private val context: Context,
-    private val onImageCaptured: (ByteArray) -> Unit
+    private val onImageCaptured: (ImageFrame) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     //private var lastAnalyzeTime = 0L
@@ -29,7 +30,14 @@ class FrameAnalyzer(
             yuvToRgbConverter.yuvToRgb(image.image!!, bitmap)
 
             val byteArray = bitmapToByteArray(bitmap)
-            onImageCaptured(byteArray)
+            val imageFrame = ImageFrame(
+                imageData = byteArray,
+                width = image.width,
+                height = image.height,
+                rotationDegree = image.imageInfo.rotationDegrees
+            )
+
+            onImageCaptured(imageFrame)
         }
         image.close()
     }

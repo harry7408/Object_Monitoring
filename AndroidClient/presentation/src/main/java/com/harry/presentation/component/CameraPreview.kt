@@ -16,13 +16,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.harry.domain.model.ImageFrame
 import com.harry.presentation.main.FrameAnalyzer
 
 // 카메라 화면 불러오기 (Android View 활용)
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    onImageCaptured: (ByteArray) -> Unit
+    onImageCaptured: (ImageFrame) -> Unit
 ) {
     val context = LocalContext.current
     val lifeCycleOwner = LocalLifecycleOwner.current
