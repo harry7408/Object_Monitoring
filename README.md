@@ -391,16 +391,20 @@ Spring Boot Application 과 REST API를 통해 이미지를 전송하여 분석�
     </div>
     </details>
 
+---
+## 시연 영상
+
+https://github.com/user-attachments/assets/fa0f7459-f035-4b97-9adf-6bd2da550c08
     
 ---
 
-### Trouble Shooting
+## Trouble Shooting
 
 🖇️ [https://www.notion.so/Trouble-Shooting-1bfa531acec880d79dfaf0cd8feeb22e?source=copy_link](https://www.notion.so/Trouble-Shooting-1bfa531acec880d79dfaf0cd8feeb22e?pvs=21)
 
 ---
 
-### 회고
+## 회고
 
 - Android에서 하드웨어에서 받아온 Image를 다루는 부분이 생각보다 복잡했다
 - Clean Architecture을 적용하고 Orbit 라이브러리를 사용하여 MVI 패턴을 적용할 수 있었다
@@ -408,3 +412,30 @@ Spring Boot Application 과 REST API를 통해 이미지를 전송하여 분석�
     - Orbit 라이브러리를 쓴다면 MVI 패턴도 코드 구조가 Boiler-Plate 할 것 같음을 느낌
 - Trouble Shooting에서 Profiler 기능을 이용해서 메모리 누수를 발견하고 이를 해결할 수 있었다
 - 간단하지만 Spring Boot, Yolo 모델을 사용하여 Object Detection을 수행하고 Fast API를 사용해 데이터를 전송할 수 있었다
+---
+```
+라이센스 (License)
+
+이 프로젝트는 YOLOv11 모델을 사용하며, 다음 라이센스 조건을 따릅니다:
+
+- **YOLOv11**: AGPL-3.0 License (Ultralytics)
+- **프로젝트 코드**: AGPL-3.0 License
+
+중요 고지사항
+
+본 프로젝트는 [Ultralytics YOLOv11](https://github.com/ultralytics/ultralytics)을 사용합니다.
+YOLOv11은 AGPL-3.0 라이센스 하에 배포되므로, 이 프로젝트의 모든 코드와 수정사항은 
+동일한 라이센스 조건을 따라야 합니다.
+
+상업적 사용을 위해서는 [Ultralytics Enterprise License](https://ultralytics.com/license)를 
+구매해야 할 수 있습니다.
+
+License
+
+This project uses YOLOv11 under the AGPL-3.0 License.
+- YOLOv11 by Ultralytics: AGPL-3.0
+- Project code: AGPL-3.0
+
+For commercial use, please consider purchasing an [Ultralytics Enterprise License](https://ultralytics.com/license).
+
+```
