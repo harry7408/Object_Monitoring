@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.harry.presentation.component.CameraPreview
+import com.harry.presentation.component.ResultOverlay
 import com.harry.presentation.util.requestCameraPermission
 import timber.log.Timber
 
@@ -25,6 +27,7 @@ fun CameraScreen(
 ) {
 
     val context = LocalContext.current
+    val value = viewModel.container.stateFlow.collectAsState().value
     var hasPermission by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -34,9 +37,7 @@ fun CameraScreen(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .fillMaxHeight()
+        modifier = modifier
     ) {
         if (hasPermission) {
             CameraPreview(
@@ -53,7 +54,13 @@ fun CameraScreen(
             )
         }
 
-        // TODO : API 결과 중 Result의 결과를 받아 Bounding Box, 식별된 물체, Confidence 값 표시
+        value.apiResult?.let { apiResult ->
+            ResultOverlay(
+                apiResult = apiResult,
+                frameWidth = value.frameWidth,
+                frameHeight = value.frameHeight
+            )
+        }
     }
 }
 
