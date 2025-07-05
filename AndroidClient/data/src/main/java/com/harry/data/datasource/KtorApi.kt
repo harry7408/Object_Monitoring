@@ -1,6 +1,7 @@
 package com.harry.data.datasource
 
 import com.harry.data.model.ApiResultDto
+import com.harry.domain.utils.API_ENDPOINT
 import com.harry.domain.model.ApiResult
 import com.harry.domain.model.ImageFrame
 import io.ktor.client.HttpClient
@@ -27,7 +28,7 @@ class KtorApi @Inject constructor() : Api {
     // 데이터를 가져오는 부분 -> Post Mapping(Multipart Body 이미지 형식 필요)
     override suspend fun getResults(imageFrame: ImageFrame): ApiResultDto {
         val response: HttpResponse = client.submitFormWithBinaryData(
-            url = "http://192.168.45.212:8080/api/object/monitor",
+            url = API_ENDPOINT,
             formData = formData {
                 append(
                     "image",
