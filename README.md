@@ -99,22 +99,7 @@ http://localhost:8080/api/object/monitor
     	private T data;
     }
     ```
-
-    - Response
-    - result Code, 메세지, A.I Fast API 측에서 받아온 데이터
-    
-    ```java
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public class Api<T> {
-    	private String resultCode;
-    	private String message;
-    	private T data;
-    }
-    ```
-    
+     
     - Json String Example
     
     ```json
