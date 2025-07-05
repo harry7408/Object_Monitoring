@@ -72,14 +72,17 @@ class YuvToRgbConverter(context: Context) {
                     outputStride = 1
                     outputOffset = 0
                 }
+
                 1 -> {
                     outputStride = 2
                     outputOffset = pixelCount + 1
                 }
+
                 2 -> {
                     outputStride = 2
                     outputOffset = pixelCount
                 }
+
                 else -> {
                     // Image contains more than 3 planes, something strange is going on
                     return@forEachIndexed

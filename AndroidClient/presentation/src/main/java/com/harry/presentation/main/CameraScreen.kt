@@ -37,9 +37,7 @@ fun CameraScreen(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .fillMaxHeight()
+        modifier = modifier
     ) {
         if (hasPermission) {
             CameraPreview(

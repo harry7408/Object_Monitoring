@@ -32,7 +32,8 @@ class FrameAnalyzer(
 
             // 화면 회전에 대한 대응
             val rotatedBitmap = if (image.imageInfo.rotationDegrees != 0) {
-                val matrix = Matrix().apply { postRotate(image.imageInfo.rotationDegrees.toFloat()) }
+                val matrix =
+                    Matrix().apply { postRotate(image.imageInfo.rotationDegrees.toFloat()) }
                 Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
             } else {
                 bitmap

@@ -34,11 +34,10 @@ fun ResultOverlay(
 
             detections.forEach { detection ->
                 // Bounding Box 계산
-                val boxWidth = (((detection.right - detection.left).toFloat()) / frameWidth.toFloat()) * screenWidth
-                val boxHeight = (((detection.bottom - detection.top).toFloat()) / frameHeight.toFloat()) * screenHeight
-                val boxLeftOffset = (detection.left.toFloat() / frameWidth.toFloat()) * screenWidth
-                val boxTopOffset = (detection.top.toFloat() / frameHeight.toFloat()) * screenHeight
-
+                val boxWidth = (((detection.right - detection.left) / frameWidth) * screenWidth).toFloat()
+                val boxHeight = (((detection.bottom - detection.top) / frameHeight) * screenHeight).toFloat()
+                val boxLeftOffset = ((detection.left / frameWidth) * screenWidth).toFloat()
+                val boxTopOffset = ((detection.top / frameHeight) * screenHeight).toFloat()
 
 
                 Box(

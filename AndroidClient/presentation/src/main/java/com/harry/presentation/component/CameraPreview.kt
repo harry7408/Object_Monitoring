@@ -49,8 +49,9 @@ fun CameraPreview(
                 setAnalyzer(
                     ContextCompat.getMainExecutor(context),
                     FrameAnalyzer(
-                        context= context,
-                        onImageCaptured = onImageCaptured)
+                        context = context,
+                        onImageCaptured = onImageCaptured
+                    )
                 )
             }
         // 후면 카메라 적용
