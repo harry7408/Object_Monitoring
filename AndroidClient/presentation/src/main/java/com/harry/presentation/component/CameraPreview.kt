@@ -32,7 +32,6 @@ fun CameraPreview(
         PreviewView(context)
     }
 
-
     LaunchedEffect(Unit) {
         val cameraProvider = ProcessCameraProvider.getInstance(context).get()
 

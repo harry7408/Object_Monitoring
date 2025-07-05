@@ -39,18 +39,18 @@ class MainViewModel @Inject constructor(
         }
     )
 
-    fun getReusableBitmap(width: Int, height: Int): Bitmap {
-        if (reusableBitmap == null || reusableBitmap?.width != width || reusableBitmap?.height != height) {
-            reusableBitmap?.recycle()
-            reusableBitmap = createBitmap(width, height)
-        }
-        return reusableBitmap!!
-    }
-
     fun onImageCaptured(imageFrame: ImageFrame) = intent {
         Timber.tag("MainViewModel").v("onImageCaptured Called")
         // I.O Scope에서 동작하도록 CoroutineBuilder 생성
         viewModelScope.launch(Dispatchers.IO) {
+
+            // Bounding Box를 그리는 ResultOverlay에 필요한 정보를 위해 State에 값 저장
+            reduce {
+                state.copy(
+                    frameWidth = imageFrame.width,
+                    frameHeight = imageFrame.height,
+                )
+            }
 
             val imageFrame = ImageFrame(
                 imageData = imageFrame.imageData,
@@ -91,6 +91,8 @@ class MainViewModel @Inject constructor(
 
 data class MyScreenState(
     val apiResult: ApiResult? = null,
+    val frameWidth: Int = 0,
+    val frameHeight: Int = 0,
     val errorMessage: String? = null,
 )
 
