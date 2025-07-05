@@ -62,6 +62,8 @@ http://localhost:8081/object_monitor
       ]
     }
     ```
+---
+    
 ## SpringBootApplication
 - Android Client 측과 이미지 분석 Server 의 중간 노드
 ### About API
@@ -162,5 +164,247 @@ http://localhost:8080/api/object/monitor
     <img width="1104" height="454" alt="Image" src="https://github.com/user-attachments/assets/55980c42-9b15-47a2-ab4d-c6bad7c4bde7" />
     </div>
     </details>
+---
     
-   
+## Android Client
+
+Spring Boot Application 과 REST API를 통해 이미지를 전송하여 분석된 물체 정보를 불러오는 역할
+
+### 구현 내용 및 주요 라이브러리
+
+- Clean Architecture(app, data, domain, presentation Module) 적용
+- MVI(Model - ViewModel - Intent) : Orbit 라이브러리 사용
+- JetPack Compose UI, CameraX 라이브러리 사용
+- 의존성 주입 : Hilt
+- Ktor Client로 API 요청
+- Timber, TedPermission 등 3rd Party 라이브러리 활용
+
+---
+
+- Request
+    - Multipart Image
+- Response
+    - result Code, 메세지, 데이터
+    
+    ```kotlin
+    @Serializable
+    data class ApiResult(
+        val resultCode: String,
+        val message: String,
+        val data: Data,
+    )
+    
+    @Serializable
+    data class Data(
+        val result: List<Result>
+    )
+    
+    /**
+     * Object Detect 결과 Domain Model
+     */
+    @Serializable
+    data class Result(
+        val item: String,
+        val confidence: Double,
+        val left: Double,
+        val top: Double,
+        val right: Double,
+        val bottom: Double
+    )
+    ```
+
+    <details>
+    <summary>주요 내용</summary>
+    <div markdown="1">
+
+   - Api 요청을 가장 많이 활용되는 Retrofit 라이브러리가 아닌 JetBrains 사에서 만든 경량 웹 Framework인 Ktor 사용
+    
+    > KtorApi.kt
+    > 
+    
+    ```kotlin
+    interface Api {
+        suspend fun getResults(imageFrame: ImageFrame): ApiResultDto
+    }
+    
+    class KtorApi @Inject constructor() : Api {
+    
+        private val client = HttpClient {
+            install(ContentNegotiation) {
+                json(Json { ignoreUnknownKeys = true })
+            }
+        }
+    
+        // 데이터를 가져오는 부분 -> Post Mapping(Multipart Body 이미지 형식 필요)
+        override suspend fun getResults(imageFrame: ImageFrame): ApiResultDto {
+            val response: HttpResponse = client.submitFormWithBinaryData(
+                url = API_ENDPOINT,
+                formData = formData {
+                    append(
+                        "image",
+                        imageFrame.imageData,
+                        Headers.build {
+                            append(HttpHeaders.ContentType, "image/jpeg")
+                            append(HttpHeaders.ContentDisposition, "filename=\"image.jpg\"")
+                        })
+                }
+            )
+            Timber.v(response.body<ApiResult>().toString())
+            return response.body()
+        }
+    }
+    ```
+        
+    > Retrofit은 Service 인터페이스 정의 후 생성하는 코드, OkHttpClient, Json Converter 등의 설정이 필요했으나 Ktor는 위에 있는 코드로 API 요청이 끝이 나서 매우 간결해진다
+    
+    > End Point 같은 경우 Emulator를 쓴다면 `10.0.2.2/~` , 실제 Device에서 동작한다면 `서버 실행 Node의 주소/~` 로 입력하면 된다.
+
+
+    - YUV → RGB (Bitmap)
+        
+        > YuvToRgbConverter.kt
+        > 
+        
+        ```kotlin
+        class YuvToRgbConverter(context: Context) {
+            private val rs = RenderScript.create(context)
+            private val scriptYuvToRgb = ScriptIntrinsicYuvToRGB.create(rs, Element.U8_4(rs))
+        
+            private var pixelCount: Int = -1
+            private lateinit var yuvBuffer: ByteBuffer
+            private lateinit var inputAllocation: Allocation
+            private lateinit var outputAllocation: Allocation
+        
+            @Synchronized
+            fun yuvToRgb(image: Image, output: Bitmap) {
+        
+                // Ensure that the intermediate output byte buffer is allocated
+                if (!::yuvBuffer.isInitialized) {
+                    pixelCount = image.cropRect.width() * image.cropRect.height()
+                    yuvBuffer = ByteBuffer.allocateDirect(
+                        pixelCount * ImageFormat.getBitsPerPixel(ImageFormat.YUV_420_888) / 8
+                    )
+                }
+        
+                // Get the YUV data in byte array form
+                imageToByteBuffer(image, yuvBuffer)
+        
+                // Ensure that the RenderScript inputs and outputs are allocated
+                if (!::inputAllocation.isInitialized) {
+                    inputAllocation = Allocation.createSized(rs, Element.U8(rs), yuvBuffer.array().size)
+                }
+                if (!::outputAllocation.isInitialized) {
+                    outputAllocation = Allocation.createFromBitmap(rs, output)
+                }
+        
+                // Convert YUV to RGB
+                inputAllocation.copyFrom(yuvBuffer.array())
+                scriptYuvToRgb.setInput(inputAllocation)
+                scriptYuvToRgb.forEach(outputAllocation)
+                outputAllocation.copyTo(output)
+            }
+        
+            private fun imageToByteBuffer(image: Image, outputBuffer: ByteBuffer) {
+                assert(image.format == ImageFormat.YUV_420_888)
+        
+                val imageCrop = image.cropRect
+                val imagePlanes = image.planes
+                val rowData = ByteArray(imagePlanes.first().rowStride)
+        
+                imagePlanes.forEachIndexed { planeIndex, plane ->
+                    val outputStride: Int
+        
+                    var outputOffset: Int
+        
+                    when (planeIndex) {
+                        0 -> {
+                            outputStride = 1
+                            outputOffset = 0
+                        }
+        
+                        1 -> {
+                            outputStride = 2
+                            outputOffset = pixelCount + 1
+                        }
+        
+                        2 -> {
+                            outputStride = 2
+                            outputOffset = pixelCount
+                        }
+        
+                        else -> {
+                            // Image contains more than 3 planes, something strange is going on
+                            return@forEachIndexed
+                        }
+                    }
+        
+                    val buffer = plane.buffer
+                    val rowStride = plane.rowStride
+                    val pixelStride = plane.pixelStride
+        
+                    // We have to divide the width and height by two if it's not the Y plane
+                    val planeCrop = if (planeIndex == 0) {
+                        imageCrop
+                    } else {
+                        Rect(
+                            imageCrop.left / 2,
+                            imageCrop.top / 2,
+                            imageCrop.right / 2,
+                            imageCrop.bottom / 2
+                        )
+                    }
+        
+                    val planeWidth = planeCrop.width()
+                    val planeHeight = planeCrop.height()
+        
+                    buffer.position(rowStride * planeCrop.top + pixelStride * planeCrop.left)
+                    for (row in 0 until planeHeight) {
+                        val length: Int
+                        if (pixelStride == 1 && outputStride == 1) {
+                            // When there is a single stride value for pixel and output, we can just copy
+                            // the entire row in a single step
+                            length = planeWidth
+                            buffer.get(outputBuffer.array(), outputOffset, length)
+                            outputOffset += length
+                        } else {
+                            // When either pixel or output have a stride > 1 we must copy pixel by pixel
+                            length = (planeWidth - 1) * pixelStride + 1
+                            buffer.get(rowData, 0, length)
+                            for (col in 0 until planeWidth) {
+                                outputBuffer.array()[outputOffset] = rowData[col * pixelStride]
+                                outputOffset += outputStride
+                            }
+                        }
+        
+                        if (row < planeHeight - 1) {
+                            buffer.position(buffer.position() + rowStride - length)
+                        }
+                    }
+                }
+            }
+        }
+        ```
+        
+        > Android Camera Preview 등에서는 메모리 공간 절약을 위해 RGB 형식이 아닌 YUV_420_ 888 형식으로 데이터를 제공하지만 Preview에 데이터를 띄우려면 RGB Format으로 전환을 해야한다
+        
+        > 위의 Class는 기존에 CameraX 1.3.x 버전에서는 지원했으나 Android 12 이상 버전에서는 Deprecated 된 Class 및 메서드가 많아서 끊긴 것 같다
+    </div>
+    </details>
+
+    
+---
+
+### Trouble Shooting
+
+🖇️ [https://www.notion.so/Trouble-Shooting-1bfa531acec880d79dfaf0cd8feeb22e?source=copy_link](https://www.notion.so/Trouble-Shooting-1bfa531acec880d79dfaf0cd8feeb22e?pvs=21)
+
+---
+
+### 회고
+
+- Android에서 하드웨어에서 받아온 Image를 다루는 부분이 생각보다 복잡했다
+- Clean Architecture을 적용하고 Orbit 라이브러리를 사용하여 MVI 패턴을 적용할 수 있었다
+    - Screen간 전환이 없어 Navigation Compose를 적용하지 못한 부분에 대한 아쉬움
+    - Orbit 라이브러리를 쓴다면 MVI 패턴도 코드 구조가 Boiler-Plate 할 것 같음을 느낌
+- Trouble Shooting에서 Profiler 기능을 이용해서 메모리 누수를 발견하고 이를 해결할 수 있었다
+- 간단하지만 Spring Boot, Yolo 모델을 사용하여 Object Detection을 수행하고 Fast API를 사용해 데이터를 전송할 수 있었다
