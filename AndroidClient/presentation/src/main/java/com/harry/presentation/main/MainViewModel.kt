@@ -1,7 +1,6 @@
 package com.harry.presentation.main
 
 import android.graphics.Bitmap
-import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.harry.domain.model.ApiResult
