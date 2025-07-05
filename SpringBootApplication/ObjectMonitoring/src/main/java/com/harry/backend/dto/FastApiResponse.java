@@ -9,10 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class FastApiResponse {
 
     private List<ObjectDto> result;
+
 
     @Data
     @NoArgsConstructor
